@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mating Rituals 💘</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: #f0f0f0; min-height: 100vh; }
+    .w { max-width: 540px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+    .screen { display: none; } .screen.active { display: block; }
+    .hero { text-align: center; padding: 2.5rem 0 1.5rem; }
+    .hero-e { font-size: 56px; display: block; margin-bottom: 0.5rem; }
+    h1.big { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 0.35rem; letter-spacing: -0.5px; }
+    .muted { font-size: 14px; color: #888; line-height: 1.6; }
+    .pill { display: inline-flex; align-items: center; gap: 5px; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 99px; padding: 5px 14px; font-size: 12px; color: #888; margin: 0.75rem 0 1.75rem; }
+    .card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; padding: 1rem 1.25rem; margin-bottom: 10px; }
+    .cat-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 4px; }
+    .cat-icon { font-size: 20px; color: #666; margin-top: 1px; flex-shrink: 0; }
+    h3.cn { font-size: 14px; font-weight: 600; color: #f0f0f0; }
+    p.cd { font-size: 12px; color: #666; margin-top: 2px; }
+    .stars { display: flex; gap: 5px; margin: 8px 0 8px 30px; }
+    .star { font-size: 26px; cursor: pointer; transition: transform 0.1s; user-select: none; color: #333; line-height: 1; }
+    .star:hover { transform: scale(1.2); } .star.lit { color: #f5a623; }
+    textarea { width: 100%; font-size: 13px; font-family: inherit; padding: 8px 12px; border: 1px solid #2a2a2a; border-radius: 10px; background: #111; color: #ccc; resize: none; min-height: 48px; margin-top: 4px; }
+    textarea::placeholder { color: #444; } textarea:focus { outline: none; border-color: #7c6fd4; }
+    input[type="text"] { width: 100%; padding: 12px 14px; background: #111; border: 1px solid #2a2a2a; border-radius: 12px; color: #f0f0f0; font-size: 14px; font-family: inherit; }
+    input[type="text"]:focus { outline: none; border-color: #7c6fd4; } input[type="text"]::placeholder { color: #444; }
+    .btn-p { width: 100%; padding: 14px; font-size: 15px; font-weight: 600; border-radius: 14px; border: none; cursor: pointer; background: #7c6fd4; color: #fff; transition: opacity 0.15s, transform 0.1s; margin-top: 8px; display: block; }
+    .btn-p:hover { opacity: 0.88; } .btn-p:active { transform: scale(0.98); } .btn-p.pink { background: #c0496f; }
+    .btn-s { width: 100%; padding: 12px; font-size: 14px; border-radius: 14px; cursor: pointer; background: transparent; border: 1px solid #2a2a2a; color: #888; margin-top: 8px; display: block; }
+    .btn-s:hover { border-color: #444; color: #ccc; }
+    .share-box { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; padding: 1.5rem; text-align: center; margin: 1rem 0; }
+    .code-block { background: #111; border: 1px solid #2a2a2a; border-radius: 10px; padding: 12px 14px; font-family: monospace; font-size: 12px; color: #a78bfa; word-break: break-all; text-align: left; margin: 0.75rem 0; line-height: 1.5; }
+    .copy-btn { padding: 9px 22px; font-size: 13px; border-radius: 10px; cursor: pointer; background: transparent; border: 1px solid #2a2a2a; color: #888; }
+    .copy-btn:hover { border-color: #7c6fd4; color: #a78bfa; }
+    .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+    .bar-lbl { width: 24px; text-align: right; font-weight: 600; font-size: 11px; }
+    .bar-track { flex: 1; height: 8px; background: #222; border-radius: 99px; overflow: hidden; }
+    .bar-a { height: 100%; border-radius: 99px; background: #7c6fd4; transition: width 0.5s; }
+    .bar-b { height: 100%; border-radius: 99px; background: #c0496f; transition: width 0.5s; }
+    .score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 1rem 0; }
+    .score-tile { background: #1a1a1a; border-radius: 14px; padding: 1rem; text-align: center; }
+    .score-tile .who { font-size: 11px; color: #666; margin-bottom: 4px; }
+    .score-tile .pts { font-size: 32px; font-weight: 700; }
+    .pts.a { color: #a78bfa; } .pts.b { color: #f472b6; }
+    .score-tile .sub { font-size: 11px; color: #555; }
+    .result-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; padding: 1.25rem; margin-bottom: 10px; }
+    .result-card h3 { font-size: 11px; font-weight: 600; color: #555; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.6px; }
+    .result-text { font-size: 14px; color: #ccc; line-height: 1.75; }
+    .result-text .hi { color: #a78bfa; font-weight: 600; }
+    .result-text .hi-b { color: #f472b6; font-weight: 600; }
+    .verdict-banner { background: #1a1a1a; border-radius: 16px; padding: 1.5rem; text-align: center; margin: 1rem 0; }
+    .verdict-banner .ve { font-size: 48px; display: block; margin-bottom: 0.5rem; }
+    .verdict-banner h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 0.25rem; }
+    .diff-badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; margin-left: 6px; }
+    .diff-lo { background: #3a1a1a; color: #f87171; } .diff-ok { background: #1e1a3a; color: #a78bfa; }
+    .nick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1rem; }
+    .nick-btn { padding: 10px 8px; font-size: 13px; border-radius: 10px; cursor: pointer; background: #1a1a1a; border: 1px solid #2a2a2a; color: #ccc; width: 100%; text-align: center; }
+    .nick-btn:hover { border-color: #7c6fd4; color: #a78bfa; }
+    .nick-btn.selected { background: #1e1a3a; border-color: #7c6fd4; color: #a78bfa; }
+    .header-row { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0 0.5rem; margin-bottom: 0.5rem; }
+    .err-msg { font-size: 12px; color: #f87171; min-height: 18px; margin: 4px 0 8px; }
+    .award-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid #222; }
+    .award-row:last-child { border-bottom: none; }
+    .award-emoji { font-size: 20px; flex-shrink: 0; }
+    .award-title { color: #ccc; font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+    .award-desc { color: #666; font-size: 12px; }
+    .stat-row { padding: 8px 0; border-bottom: 1px solid #1f1f1f; font-size: 13px; }
+    .stat-row:last-child { border-bottom: none; }
+  </style>
+</head>
+<body>
+<div class="w">
+
+  <!-- HOME -->
+  <div class="screen active" id="s-home">
+    <div class="hero">
+      <span class="hero-e">💘</span>
+      <h1 class="big">Mating Rituals</h1>
+      <p class="muted">Two people. One situation. Zero dignity.<br>Rate independently. Compare the carnage.</p>
+    </div>
+    <div style="text-align:center">
+      <span class="pill">🔒 anonymous · no accounts · no data stored</span>
+    </div>
+    <button class="btn-p" id="btn-start">start a new session 🎬</button>
+    <button class="btn-s" id="btn-have-code">i have a code from my person 🔑</button>
+  </div>
+
+  <!-- NAME A -->
+  <div class="screen" id="s-name">
+    <div style="padding:1.5rem 0 1rem">
+      <h1 class="big" style="font-size:22px;margin-bottom:0.25rem">first, who are you?</h1>
+      <p class="muted" style="margin-bottom:1.25rem">pick a nickname. they'll see it when results drop.</p>
+      <div class="nick-grid" id="nick-grid-a"></div>
+      <p class="muted" style="font-size:12px;margin-bottom:8px">or type your own:</p>
+      <input type="text" id="custom-name-a" placeholder="your alias…" maxlength="20" style="margin-bottom:4px">
+      <p class="err-msg" id="err-name-a"></p>
+      <button class="btn-p" id="btn-confirm-a">that's me, let's go →</button>
+      <button class="btn-s" id="btn-back-home">← back</button>
+    </div>
+  </div>
+
+  <!-- RATE A -->
+  <div class="screen" id="s-rate">
+    <div class="header-row">
+      <div><p style="font-size:11px;color:#555">rating as</p><p style="font-size:16px;font-weight:600;color:#a78bfa" id="name-a-display">—</p></div>
+      <div style="text-align:right"><p style="font-size:11px;color:#555">score</p><p style="font-size:16px;font-weight:600"><span id="live-score-a">0</span><span style="font-size:12px;color:#666"> / 30</span></p></div>
+    </div>
+    <div id="cats-a"></div>
+    <button class="btn-p" id="btn-submit-a" style="margin-top:0.5rem">lock in my scores 🔒</button>
+  </div>
+
+  <!-- SHARE -->
+  <div class="screen" id="s-share">
+    <div class="share-box">
+      <span style="font-size:40px;display:block;margin-bottom:0.75rem">📤</span>
+      <h2 style="font-size:20px;font-weight:700;color:#fff;margin-bottom:0.35rem">scores locked.</h2>
+      <p class="muted" style="margin-bottom:1rem">send this code to your person.<br>they rate, then you both see the verdict.</p>
+      <div class="code-block" id="share-code">—</div>
+      <button class="copy-btn" id="btn-copy">📋 copy code</button>
+      <p class="muted" style="font-size:12px;margin-top:1rem">they paste it at home → "i have a code"</p>
+    </div>
+    <button class="btn-s" id="btn-go-enter">actually, they gave me a code →</button>
+  </div>
+
+  <!-- ENTER CODE -->
+  <div class="screen" id="s-enter-code">
+    <div style="padding:1.5rem 0 1rem">
+      <div style="font-size:40px;text-align:center;margin-bottom:0.5rem">🔑</div>
+      <h1 class="big" style="font-size:22px;text-align:center;margin-bottom:0.25rem">enter the session code</h1>
+      <p class="muted" style="text-align:center;margin-bottom:1.25rem">your person sent you a code — paste it below</p>
+      <input type="text" id="code-input" placeholder="paste code here…" style="margin-bottom:4px;font-family:monospace;font-size:13px">
+      <p class="err-msg" id="code-err"></p>
+      <button class="btn-p" id="btn-load-code">load session →</button>
+      <button class="btn-s" id="btn-back-home2">← back</button>
+    </div>
+  </div>
+
+  <!-- NAME B -->
+  <div class="screen" id="s-name-b">
+    <div style="padding:1.5rem 0 1rem">
+      <h1 class="big" style="font-size:22px;margin-bottom:0.25rem">and you are…?</h1>
+      <p class="muted" style="margin-bottom:0.5rem">responding to <span id="person-a-intro" style="color:#a78bfa;font-weight:600">—</span>'s session.</p>
+      <p class="muted" style="font-size:12px;margin-bottom:1.25rem">pick your alias.</p>
+      <div class="nick-grid" id="nick-grid-b"></div>
+      <p class="muted" style="font-size:12px;margin-bottom:8px">or type your own:</p>
+      <input type="text" id="custom-name-b" placeholder="your alias…" maxlength="20" style="margin-bottom:4px">
+      <p class="err-msg" id="err-name-b"></p>
+      <button class="btn-p pink" id="btn-confirm-b">let's do this →</button>
+    </div>
+  </div>
+
+  <!-- RATE B -->
+  <div class="screen" id="s-rate-b">
+    <div class="header-row">
+      <div><p style="font-size:11px;color:#555">rating as</p><p style="font-size:16px;font-weight:600;color:#f472b6" id="name-b-display">—</p></div>
+      <div style="text-align:right"><p style="font-size:11px;color:#555">score</p><p style="font-size:16px;font-weight:600"><span id="live-score-b">0</span><span style="font-size:12px;color:#666"> / 30</span></p></div>
+    </div>
+    <div id="cats-b"></div>
+    <button class="btn-p pink" id="btn-submit-b" style="margin-top:0.5rem">reveal the combined chaos 💥</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="screen" id="s-results">
+    <div class="verdict-banner">
+      <span class="ve" id="res-emoji">🏆</span>
+      <h2 id="res-title">—</h2>
+      <p class="muted" id="res-sub">—</p>
+    </div>
+    <div class="score-grid">
+      <div class="score-tile"><div class="who" id="tile-name-a">—</div><div class="pts a" id="tile-pts-a">—</div><div class="sub">out of 30</div></div>
+      <div class="score-tile"><div class="who" id="tile-name-b">—</div><div class="pts b" id="tile-pts-b">—</div><div class="sub">out of 30</div></div>
+    </div>
+    <div class="result-card"><h3>✍️ the verdict</h3><p class="result-text" id="verdict-text">—</p></div>
+    <div class="card">
+      <h3 style="font-size:11px;font-weight:600;color:#555;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.6px">📊 category breakdown</h3>
+      <div id="bars"></div>
+    </div>
+    <div class="result-card"><h3>🏆 awards ceremony</h3><div id="awards"></div></div>
+    <div class="result-card"><h3>💡 unsolicited advice</h3><p class="result-text" id="advice-text">—</p></div>
+    <div class="result-card" id="comments-card" style="display:none"><h3>💬 what you actually said</h3><div id="comments-inner"></div></div>
+    <button class="btn-s" id="btn-reset" style="margin-top:0.5rem">start a new session</button>
+  </div>
+
+</div>
+<script>
+const CATS = [
+  {id:'pre',  icon:'🗓',  name:'pre-meeting energy',   desc:'hype, anticipation, the 47 unsent texts'},
+  {id:'init', icon:'🔥',  name:'initiation game',       desc:'who made the move? smooth or slow-motion disaster?'},
+  {id:'main', icon:'⚡',  name:'the main event',        desc:'effort, creativity, presence. you know.'},
+  {id:'comm', icon:'💬',  name:'communication',         desc:'did you use your words? were you actually there?'},
+  {id:'after',icon:'☕',  name:'after-talk & vibes',    desc:'cuddle, snacks, awkward silence, or sprint to exit'},
+  {id:'form', icon:'🌙',  name:'recovery form',         desc:'how are you doing right now. be honest.'},
+];
+
+const NICKS = ['hot mess','main character','chaos agent','surprisingly smooth','emotionally unavailable','tried their best','vibes only','the planner','mystery person','running late','certified disaster','the closer'];
+
+const VERDICTS = {
+  elite:   { emoji:'🌟', title:'a certified masterpiece.',  subs:['the bar was on the floor and you both cleared it by a mile.','we did not expect this. neither did you.','frame this. put it in a museum.'] },
+  great:   { emoji:'🥂', title:'genuinely impressive.',     subs:["you two actually cooked. don't let it go to your heads.",'this is not the average outcome. just saying.','someone had a great time. both of you, apparently.'] },
+  decent:  { emoji:'😏', title:'respectable chaos.',        subs:["it happened. it worked. mostly.",'the highs were high. the lows were educational.',"a solid B+. could've been worse. could've been better. wasn't."] },
+  rough:   { emoji:'😬', title:'well… it happened.',        subs:["and that's what matters. allegedly.",'participation trophies are being issued as we speak.','it could have been worse. it also could have been much better.'] },
+  disaster:{ emoji:'💀', title:'oof.',                      subs:['the bar was on the floor and somehow…',"we're not here to judge. actually we are. that's the whole app.",'please hydrate and reflect.'] },
+};
+
+const GAP_COMMENTS = [
+  { max:1,  msgs:["you rated almost identically. either you're perfectly in sync or you both agreed to lie. either way, healthy.", "a tied session. suspicious levels of agreement. we love to see it."] },
+  { max:4,  msgs:['slight disagreement in the scores. healthy. keeps things interesting.', 'close but not identical — someone had slightly higher standards.'] },
+  { max:8,  msgs:["there's a gap here. someone was clearly at a different event than the other person.", 'notable score difference. a conversation might be warranted. or not. up to you.'] },
+  { max:99, msgs:["this gap is genuinely concerning. one of you rated this a romantic comedy, the other rated it a nature documentary about survival.", "these scores are so far apart we had to double-check this was the same encounter."] },
+];
+
+const ADVICE_POOL = {
+  low_main:   ['next time: effort is free. deploy it.', "the main event got a low score. practice makes less embarrassing."],
+  low_comm:   ['words are free. consider using them next time.', "communication scored low. revolutionary idea: try talking to each other."],
+  low_pre:    ['the pre-meeting energy was flat. next time: build the hype. send a text. show up on time. wear the thing.'],
+  low_after:  ["don't sprint to the exit next time. the after-talk is half the experience."],
+  low_init:   ['next time: be bolder with the initiation. nobody gets points for awkward hovering.'],
+  high_all:   ['honestly? no notes. carry on. do it again. do it better somehow.', "advice: keep doing exactly what you're doing. we don't have complaints."],
+  gap_big:    ["with a score gap this big, maybe debrief after? turns out talking about it helps. allegedly.", "you two experienced this very differently. that's data. use it."],
+  default:    ["show up with more intention next time. the scores suggest autopilot was engaged.", "the scores were middling. not a disaster, not a triumph. room to grow. that's fine."],
+};
+
+const AWARDS_POOL = [
+  { cond:(a,b,rA,rB)=>( rA.pre>=4&&rB.pre>=4),           emoji:'✨', title:'mutual hype award',        desc:'both of you showed up energized. rare.' },
+  { cond:(a,b,rA,rB)=>( rA.main===5&&rB.main===5),        emoji:'🔥', title:'perfect main event',        desc:'a clean 5/5 from both sides. legendary.' },
+  { cond:(a,b,rA,rB)=>( rA.after>=4&&rB.after>=4),        emoji:'🛋️', title:'golden after-talk',         desc:"you stuck around. you talked. we're proud." },
+  { cond:(a,b,rA,rB)=>( rA.comm===5||rB.comm===5),        emoji:'🗣️', title:'communication royalty',     desc:'someone used their words perfectly. impressive.' },
+  { cond:(a,b,rA,rB)=>( Math.abs((rA.main||0)-(rB.main||0))>=3), emoji:'🎭', title:'different movies award', desc:'you both scored the main event very differently. interesting.' },
+  { cond:(a,b,rA,rB)=>( (rA.form||0)===5&&(rB.form||0)===5), emoji:'💧', title:'hydration nation',      desc:'both fully recovered. we respect the discipline.' },
+  { cond:(a,b,rA,rB)=>( (rA.init||0)>=4&&(rB.init||0)>=4),   emoji:'🎯', title:'mutual smooth initiation',desc:'nobody fumbled the approach. a miracle, honestly.' },
+  { cond:(a,b,rA,rB)=>( Math.abs((rA.pre||0)-(rB.pre||0))>=3),  emoji:'📻', title:'different frequencies',  desc:'one of you was hyped, one was not. the discord was real.' },
+];
+
+function pick(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+
+function getVerdict(combined) {
+  if (combined>=52) return VERDICTS.elite;
+  if (combined>=40) return VERDICTS.great;
+  if (combined>=28) return VERDICTS.decent;
+  if (combined>=16) return VERDICTS.rough;
+  return VERDICTS.disaster;
+}
+
+function getGapComment(gap) {
+  const b = GAP_COMMENTS.find(g=>gap<=g.max)||GAP_COMMENTS[GAP_COMMENTS.length-1];
+  return pick(b.msgs);
+}
+
+function buildVerdictText(nA,nB,rA,rB,pA,pB,gap) {
+  const winner = pA>pB?nA:pB>pA?nB:null;
+  const loser  = pA<pB?nA:pB<pA?nB:null;
+  let t = '';
+  if (winner) t += `<span class="${pA>pB?'hi':'hi-b'}">${winner}</span> rated this higher than <span class="${pA<pB?'hi':'hi-b'}">${loser}</span> (${Math.max(pA,pB)} vs ${Math.min(pA,pB)}). `;
+  else        t += `<span class="hi">${nA}</span> and <span class="hi-b">${nB}</span> rated this identically — ${pA} each. eerie. `;
+  t += getGapComment(gap)+' ';
+  const ids = CATS.map(c=>c.id);
+  const best  = ids.reduce((b,id)=>((rA[id]||0)+(rB[id]||0))>((rA[b]||0)+(rB[b]||0))?id:b, ids[0]);
+  const worst = ids.reduce((w,id)=>((rA[id]||0)+(rB[id]||0))<((rA[w]||0)+(rB[w]||0))?id:w, ids[0]);
+  const bName = CATS.find(c=>c.id===best).name;
+  const wName = CATS.find(c=>c.id===worst).name;
+  const bTot  = (rA[best]||0)+(rB[best]||0);
+  const wTot  = (rA[worst]||0)+(rB[worst]||0);
+  if (bTot>wTot) t += `strongest: <span class="hi">${bName}</span> (${bTot}/10). weakest: <span class="hi-b">${wName}</span> (${wTot}/10).`;
+  return t;
+}
+
+function buildAdvice(nA,nB,rA,rB,gap) {
+  const ids = CATS.map(c=>c.id);
+  const combined = id=>(rA[id]||0)+(rB[id]||0);
+  const tot = ids.reduce((a,id)=>a+combined(id),0);
+  if (tot>=50) return pick(ADVICE_POOL.high_all);
+  if (gap>=8)  return pick(ADVICE_POOL.gap_big);
+  const worst = ids.reduce((w,id)=>combined(id)<combined(w)?id:w, ids[0]);
+  if (worst==='main'  && combined('main')<=5)  return pick(ADVICE_POOL.low_main);
+  if (worst==='comm'  && combined('comm')<=5)  return pick(ADVICE_POOL.low_comm);
+  if (worst==='pre'   && combined('pre')<=5)   return pick(ADVICE_POOL.low_pre);
+  if (worst==='after' && combined('after')<=5) return pick(ADVICE_POOL.low_after);
+  if (worst==='init'  && combined('init')<=5)  return pick(ADVICE_POOL.low_init);
+  return pick(ADVICE_POOL.default);
+}
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let rA={}, rB={}, cA={}, cB={}, nameA='', nameB='', sessionData=null;
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ── NICK GRID ─────────────────────────────────────────────────────────────────
+function buildNickGrid(gridId, inputId) {
+  const g = document.getElementById(gridId);
+  const inp = document.getElementById(inputId);
+  g.innerHTML = '';
+  [...NICKS].sort(()=>Math.random()-0.5).slice(0,8).forEach(n=>{
+    const b = document.createElement('button');
+    b.className = 'nick-btn';
+    b.textContent = n;
+    b.type = 'button';
+    b.addEventListener('click', function() {
+      inp.value = n;
+      g.querySelectorAll('.nick-btn').forEach(x=>x.classList.remove('selected'));
+      this.classList.add('selected');
+    });
+    g.appendChild(b);
+  });
+}
+
+// ── CAT BUILDER ───────────────────────────────────────────────────────────────
+function buildCats(cid, rObj, cObj, scoreId) {
+  const c = document.getElementById(cid);
+  c.innerHTML = '';
+  CATS.forEach(cat=>{
+    const d = document.createElement('div');
+    d.className = 'card';
+    d.innerHTML = `
+      <div class="cat-top">
+        <span class="cat-icon">${cat.icon}</span>
+        <div><h3 class="cn">${cat.name}</h3><p class="cd">${cat.desc}</p></div>
+      </div>
+      <div class="stars" data-cat="${cat.id}"></div>
+      <textarea placeholder="notes? confessions? receipts? (optional)" rows="2"></textarea>`;
+    c.appendChild(d);
+    d.querySelector('textarea').addEventListener('change', e=>{ cObj[cat.id]=e.target.value; });
+    const sRow = d.querySelector('.stars');
+    for (let i=1;i<=5;i++) {
+      const st = document.createElement('span');
+      st.className='star'; st.textContent='★'; st.dataset.val=i;
+      st.addEventListener('click', ()=>{
+        rObj[cat.id]=i;
+        renderStars(rObj,cid,cat.id);
+        document.getElementById(scoreId).textContent = CATS.reduce((a,c2)=>a+(rObj[c2.id]||0),0);
+      });
+      st.addEventListener('mouseenter', ()=>{ sRow.querySelectorAll('.star').forEach(x=>x.classList.toggle('lit',+x.dataset.val<=i)); });
+      st.addEventListener('mouseleave', ()=>renderStars(rObj,cid,cat.id));
+      sRow.appendChild(st);
+    }
+  });
+}
+
+function renderStars(rObj,cid,catId) {
+  const v=rObj[catId]||0;
+  document.querySelectorAll(`#${cid} .stars[data-cat="${catId}"] .star`).forEach(s=>s.classList.toggle('lit',+s.dataset.val<=v));
+}
+
+// ── ENCODE / DECODE ───────────────────────────────────────────────────────────
+function encode(name,ratings,comments) {
+  const o={n:name,r:{},c:{}};
+  CATS.forEach(cat=>{ o.r[cat.id]=ratings[cat.id]||0; if(comments[cat.id]) o.c[cat.id]=comments[cat.id]; });
+  return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+}
+function decode(str) {
+  try {
+    const b=str.trim().replace(/-/g,'+').replace(/_/g,'/');
+    const pad=b.length%4?b+'='.repeat(4-b.length%4):b;
+    return JSON.parse(decodeURIComponent(escape(atob(pad))));
+  } catch(e) { return null; }
+}
+
+// ── RESULTS ───────────────────────────────────────────────────────────────────
+function showResults() {
+  const dA=sessionData;
+  const pA=CATS.reduce((a,c)=>a+(dA.r[c.id]||0),0);
+  const pB=CATS.reduce((a,c)=>a+(rB[c.id]||0),0);
+  const combined=pA+pB, gap=Math.abs(pA-pB);
+  const v=getVerdict(combined);
+
+  document.getElementById('res-emoji').textContent=v.emoji;
+  document.getElementById('res-title').textContent=v.title;
+  document.getElementById('res-sub').textContent=pick(v.subs);
+  document.getElementById('tile-name-a').textContent=dA.n;
+  document.getElementById('tile-name-b').textContent=nameB;
+  document.getElementById('tile-pts-a').textContent=pA;
+  document.getElementById('tile-pts-b').textContent=pB;
+  document.getElementById('verdict-text').innerHTML=buildVerdictText(dA.n,nameB,dA.r,rB,pA,pB,gap);
+  document.getElementById('advice-text').textContent=buildAdvice(dA.n,nameB,dA.r,rB,gap);
+
+  const bars=document.getElementById('bars');
+  bars.innerHTML='';
+  CATS.forEach(cat=>{
+    const va=dA.r[cat.id]||0, vb=rB[cat.id]||0, diff=Math.abs(va-vb);
+    const badge=diff===0?'<span class="diff-badge diff-ok">tied</span>':diff>=3?`<span class="diff-badge diff-lo">${diff} apart</span>`:'';
+    bars.innerHTML+=`<div style="margin-bottom:14px"><div style="margin-bottom:5px;font-size:12px;color:#666">${cat.name}${badge}</div><div class="bar-row"><span class="bar-lbl" style="color:#a78bfa">${va}★</span><div class="bar-track"><div class="bar-a" style="width:${va/5*100}%"></div></div></div><div class="bar-row"><span class="bar-lbl" style="color:#f472b6">${vb}★</span><div class="bar-track"><div class="bar-b" style="width:${vb/5*100}%"></div></div></div></div>`;
+  });
+
+  const awards=AWARDS_POOL.filter(a=>a.cond(dA.n,nameB,dA.r,rB)).slice(0,4);
+  const awardsDiv=document.getElementById('awards');
+  awardsDiv.innerHTML=awards.length
+    ? awards.map(a=>`<div class="award-row"><div style="font-size:20px;flex-shrink:0">${a.emoji}</div><div><div class="award-title">${a.title}</div><div class="award-desc">${a.desc}</div></div></div>`).join('')
+    : '<div class="award-row"><div style="font-size:20px">🫙</div><div><div class="award-title">no awards earned</div><div class="award-desc">we checked. nothing qualified. that\'s a verdict in itself.</div></div></div>';
+
+  const allComments=[];
+  CATS.forEach(cat=>{
+    if (dA.c&&dA.c[cat.id]) allComments.push({who:dA.n,cls:'hi',cat:cat.name,text:dA.c[cat.id]});
+    if (cB[cat.id]) allComments.push({who:nameB,cls:'hi-b',cat:cat.name,text:cB[cat.id]});
+  });
+  if (allComments.length) {
+    document.getElementById('comments-card').style.display='block';
+    document.getElementById('comments-inner').innerHTML=allComments.map(c=>
+      `<div class="stat-row"><span class="result-text ${c.cls}" style="font-size:12px">${c.who}</span> <span style="color:#555;font-size:12px">· ${c.cat}</span><br><span style="color:#ccc;font-size:13px">"${c.text}"</span></div>`
+    ).join('');
+  }
+  go('s-results');
+}
+
+// ── WIRE UP ALL BUTTONS ───────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+
+  document.getElementById('btn-start').addEventListener('click', function() {
+    buildNickGrid('nick-grid-a','custom-name-a');
+    document.getElementById('custom-name-a').value='';
+    document.getElementById('err-name-a').textContent='';
+    go('s-name');
+  });
+
+  document.getElementById('btn-have-code').addEventListener('click', function() {
+    document.getElementById('code-input').value='';
+    document.getElementById('code-err').textContent='';
+    go('s-enter-code');
+  });
+
+  document.getElementById('btn-back-home').addEventListener('click', function() { go('s-home'); });
+  document.getElementById('btn-back-home2').addEventListener('click', function() { go('s-home'); });
+  document.getElementById('btn-go-enter').addEventListener('click', function() { go('s-enter-code'); });
+
+  document.getElementById('btn-confirm-a').addEventListener('click', function() {
+    const n = document.getElementById('custom-name-a').value.trim();
+    if (!n) {
+      document.getElementById('err-name-a').textContent = 'pick a name or type one above!';
+      return;
+    }
+    nameA = n;
+    document.getElementById('name-a-display').textContent = n;
+    buildCats('cats-a', rA, cA, 'live-score-a');
+    go('s-rate');
+  });
+
+  document.getElementById('btn-submit-a').addEventListener('click', function() {
+    const total = CATS.reduce((a,c)=>a+(rA[c.id]||0),0);
+    if (!total) { alert('rate at least one category first! 😤'); return; }
+    document.getElementById('share-code').textContent = encode(nameA,rA,cA);
+    go('s-share');
+  });
+
+  document.getElementById('btn-copy').addEventListener('click', function() {
+    const code = document.getElementById('share-code').textContent;
+    navigator.clipboard.writeText(code).then(()=>{
+      const b = document.getElementById('btn-copy');
+      b.textContent = '✅ copied!';
+      setTimeout(()=>{ b.textContent = '📋 copy code'; }, 2000);
+    }).catch(()=>{
+      prompt('Copy this code:', code);
+    });
+  });
+
+  document.getElementById('btn-load-code').addEventListener('click', function() {
+    const data = decode(document.getElementById('code-input').value);
+    if (!data||!data.n||!data.r) {
+      document.getElementById('code-err').textContent = "that code doesn't look right. check and try again.";
+      return;
+    }
+    sessionData = data;
+    document.getElementById('person-a-intro').textContent = data.n;
+    buildNickGrid('nick-grid-b','custom-name-b');
+    document.getElementById('custom-name-b').value='';
+    document.getElementById('err-name-b').textContent='';
+    go('s-name-b');
+  });
+
+  document.getElementById('btn-confirm-b').addEventListener('click', function() {
+    const n = document.getElementById('custom-name-b').value.trim();
+    if (!n) {
+      document.getElementById('err-name-b').textContent = 'pick a name or type one above!';
+      return;
+    }
+    nameB = n;
+    document.getElementById('name-b-display').textContent = n;
+    buildCats('cats-b', rB, cB, 'live-score-b');
+    go('s-rate-b');
+  });
+
+  document.getElementById('btn-submit-b').addEventListener('click', function() {
+    const total = CATS.reduce((a,c)=>a+(rB[c.id]||0),0);
+    if (!total) { alert('rate at least one category! 😭'); return; }
+    showResults();
+  });
+
+  document.getElementById('btn-reset').addEventListener('click', function() {
+    rA={}; rB={}; cA={}; cB={};
+    nameA=''; nameB=''; sessionData=null;
+    document.getElementById('comments-card').style.display='none';
+    go('s-home');
+  });
+
+});
+</script>
+</body>
+</html>
